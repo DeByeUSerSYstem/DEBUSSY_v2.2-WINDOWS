@@ -16,9 +16,6 @@ Code
 The source code of the program can be found [here](WINDOWS/cygwin64/DEBUSSY_v2.2/src).
 
 
-Windows
--------
-
 We recommend you to install the binaries found [here](WINDOWS).
 
 For instructions to install the program suite please check the file [Programs_Installation_64bit_Windows.pdf](How2install/Programs_Installation_64bit_Windows.pdf).
