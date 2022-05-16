@@ -213,12 +213,11 @@ class plotter:
         Returns a Intensity vs. 2theta/q/d plot of calculated diffraction intensity of atomic clusters.
         '''    
         toplot = False
-        plt.figure()
+        fig = plt.figure()
+        axes = plt.axes()
         ax=plt.subplot(111)
-#        fig = plt.figure()
         fl = fins.split()
         points_with_annotation = []
-#        axes = plt.axes()
         nfl = len(fl)
         xvall, yvall, wl_all, color1 = [], [], [], []
         for c in range(nfl):
@@ -403,7 +402,9 @@ class plotter:
         
         ndat = dwaobj.ndataset
         nstr = dwaobj.nstructure
-    
+        fig = plt.figure()
+        axes = plt.axes()
+        ax = plt.subplot(111)    
         for i in range(ndat):
             dat = dwaobj.dwainfo['data%i'%(i+1)].rpartition(gv.SEP)[-1]
             #print(dat)
