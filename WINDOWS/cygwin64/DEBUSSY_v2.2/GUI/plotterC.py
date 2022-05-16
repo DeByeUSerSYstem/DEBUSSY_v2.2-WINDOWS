@@ -425,8 +425,8 @@ class plotter:
                 elif 'ref' in varx:
                     print(">>>>>   Error: can\'t find file %s or read data    <<<<<"%(dwaobj.dwainfo['bestcal%i'%(i+1)]))
             else:
-                fig = plt.figure()
-                ax = plt.subplot(111)
+ 
+ 
                 liny = True
                 imin = []
                 if '_q' in varx:
@@ -504,7 +504,7 @@ class plotter:
                 if '_hkl' in varx:
                     hklxall = self.get_hkl(dwaobj,ftype='.hkl',xtype=svarx)
                     hklx = hklxall[i]
-                    axes = plt.axes()
+                
                     points_with_annotation = []
                     ymin = min(imin)
                     yplot = ax.get_ylim()
