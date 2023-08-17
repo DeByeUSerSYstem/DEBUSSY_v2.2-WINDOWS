@@ -6,7 +6,7 @@ echo Anaconda3 path is %VAR%
 echo[
 REM set MOD=%VAR:pip3.exe=pip.exe%
 REM echo Pip3 path is %MOD%
-%VAR% install -U wxpython
+%VAR% install wxpython
 del temp.txt
 pause
 
