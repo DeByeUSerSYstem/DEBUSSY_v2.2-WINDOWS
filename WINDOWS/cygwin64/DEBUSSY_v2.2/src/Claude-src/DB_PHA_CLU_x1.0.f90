@@ -812,4 +812,5 @@ if (.not.mol_exist) then
    end select cluster
 endif
 
+close(ilogout)
  end program DB_PHA_CLU_info  
