@@ -36,13 +36,13 @@ class reader:
         Usage : refer to attributes help.
     """
     
-    def __init__(self, infile, form = None, rang = [0., 0., 0.], verbose = False):
+    def __init__(self, infile, form  =  None, rang  =  [0., 0., 0.], verbose = False):
         
         
 #         if type(infile)  !=  str:
 #             print('STOP : file name expected (string), got ', type(infile), ' instead.')
 #         elif type(infile) == str:
-        fname = infile.rpartition(gv.SEP)[-1]
+        fname  =  infile.rpartition(gv.SEP)[-1]
         if fname.rpartition('.')[-1].lower() == 'dwa':
             self.dwa(infile, verbose)
         if fname.rpartition('.')[-1].lower() == 'pha':
@@ -198,8 +198,13 @@ class reader:
                 if rline0 == 'outs':
                     self.dwainfo['outs'] = rline[1]
                     for i in range(ndataset):
-                        self.dwainfo['outf'+ '%i'%ndataset] = rline[1] + '_' + \
-                          self.dwainfo['beamt%i'%(ndataset)] + '#%02i.cal'%(ndataset)
+                        self.dwainfo['outf' + '%i' % (i+1)] = (
+                                rline[1] + '_' +
+                                self.dwainfo['beamt%i' % (i+1)] +
+                                '#%02i.cal' % (i+1)
+                        )
+                        #self.dwainfo['outf'+ '%i'%ndataset] = rline[1] + '_' + \
+                          #self.dwainfo['beamt%i'%(ndataset)] + '#%02i.cal'%(ndataset)
                 if rline0 == 'rpdf':
                     self.dwainfo['rpdf'] = rline[1]
 
@@ -241,7 +246,7 @@ class reader:
                 elif (ll[0] == 'Coord' or ll[0] == 'coord'):
                     phaco += [ll[1:]]
                     if verbose : print(phaco)
-            self.phaseinfo = phana, phace, phasg, phaco
+            self.phaseinfo  =  phana, phace, phasg, phaco
             return self.phaseinfo
     
     #-------------------------------------------------------------------
@@ -354,10 +359,10 @@ class reader:
                     ll = lines[l].rpartition(':')
                     ttm = ll[-1].strip()
                     if verbose : print(ttm)
-            self.phas = (pha, sg, natsp, constr, celor, pear, occ1, para, rmd, rho)
-            self.shap = (shap, dsph, nsph, dpar, lpar, n1par, n2par)
-            self.samp = (samp, wave, ttm)
-            self.todo = (todo)
+            self.phas  =  (pha, sg, natsp, constr, celor, pear, occ1, para, rmd, rho)
+            self.shap  =  (shap, dsph, nsph, dpar, lpar, n1par, n2par)
+            self.samp  =  (samp, wave, ttm)
+            self.todo  =  (todo)
             return self.phas, self.shap, self.samp, self.todo
         
     #-------------------------------------------------------------------
@@ -407,7 +412,7 @@ class reader:
                             rline = lines[4].split()
                             rho = rline[1].strip()
             if verbose : print(xyz, sam, wlen, ttma, rmidi, rho)
-            self.molecinfo = xyz, sam, wlen, ttma, rmidi, rho
+            self.molecinfo  =  xyz, sam, wlen, ttma, rmidi, rho
             return self.molecinfo
     
     #-------------------------------------------------------------------
@@ -476,6 +481,7 @@ class reader:
         '''
         Read Claude .cel file
         '''
+        verbose  =  True
         try:
             f = open(infile, 'r')
         except IOError:
@@ -500,7 +506,7 @@ class reader:
     
     #-------------------------------------------------------------------
     
-    def dat(self, infile, form = None, rang = [0., 0., 0.], verbose = False):
+    def dat(self, infile, form  =  None, rang = [0., 0., 0.], verbose = False):
         '''
         dat(filename, form, rang):
         Returns angles, intensities and standard deviations (if present)
@@ -628,7 +634,7 @@ class reader:
                     atox += [[ato_law, okk_i, okk_0, okk_l, bth_i, bth_0, bth_l]]
             dis += [av1ln, sd1ln, av2ln, sd2ln, philn]
             str += [stcod, valn1, str_i, str_1, str_c, str_w]
-            self.dis, self.str, self.atox = dis, str, atox
+            self.dis, self.str, self.atox  =  dis, str, atox
             return self.dis, self.str, self.atox
     
     #-------------------------------------------------------------------
