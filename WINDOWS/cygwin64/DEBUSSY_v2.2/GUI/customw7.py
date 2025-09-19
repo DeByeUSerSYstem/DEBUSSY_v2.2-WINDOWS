@@ -471,7 +471,6 @@ class CustomPlotter(wx.Frame):
       vx = xx.GetValue().strip()
       if len(vx)>0 : lgdopt = vx
       print('######', file = cstmplt)
-      print('verbose = ',verbose, file = cstmplt)
       if self.rb1.GetValue():
         if verbose: print('XY-plot')
         print('# XY-plot', file = cstmplt)
@@ -802,22 +801,13 @@ class CustomPlotter(wx.Frame):
             print('f%i += [0]'%(i), file = cstmplt)
             print('for c in range(ncls):', file = cstmplt)
             print('  f%i += [np.loadtxt(r"%s", usecols = ([c]), unpack = True)]'%(i, fn), file = cstmplt)
-            if fn.endswith('.mtx'):
-                print('si, si1, si2 = debfuncx.indmtx(f1[1])', file = cstmplt)
-                print('for nc in range(1, ncls+1):', file = cstmplt)
-                print('  f%i[nc] = debfuncx.srtmtx(f%i[nc], si, si1, si2)'%(i, i), file = cstmplt)
+            print('si, si1, si2 = debfuncx.indmtx(f1[1])', file = cstmplt)
+            print('for nc in range(1, ncls+1):', file = cstmplt)
+            print('  f%i[nc] = debfuncx.srtmtx(f%i[nc], si, si1, si2)'%(i, i), file = cstmplt)
             if len(fx)>0: xcl, ycl, zcl = 'f%i[%s]'%(i, fx), 'f%i[%s]'%(i, fy), 'f%i[%s]'%(i, fz)
             if len(ft)>0:
               transfstr = ft.split(',')
               xcl, ycl, zcl = transfstr[0].strip(), transfstr[1].strip(), transfstr[2].strip()
-            print('xcl, ycl, zcl = %s, %s, %s'%(xcl, ycl, zcl), file = cstmplt)
-            if fn.endswith('.mtx'):
-                print('npy = np.argwhere(xcl==max(xcl)).flatten()[1]', file = cstmplt)
-                print('npx = len(np.argwhere(xcl==max(xcl)).flatten())', file = cstmplt)
-            else:
-                print('npx = np.argwhere(xcl==max(xcl)).flatten()[0]+1', file = cstmplt)
-                print('npy = len(np.argwhere(xcl==max(xcl)).flatten())', file = cstmplt)
-            print('img = np.reshape(zcl[::-1],(npx,npy))', file = cstmplt)
             print('##__', file = cstmplt)
         ##
         xmin, xmax = 0.0, 0.0
@@ -847,6 +837,7 @@ class CustomPlotter(wx.Frame):
         xx = wx.FindWindowByName('title')
         vx = xx.GetValue().strip()
         if len(vx)>0 : tl = vx
+        print('xcl, ycl, zcl = %s, %s, %s'%(xcl, ycl, zcl), file = cstmplt)
         print('xra = [%f, %f]'%(xmin, xmax), file = cstmplt)
         print('yra = [%f, %f]'%(ymin, ymax), file = cstmplt)
         print('zra = [%f, %f]'%(zmin, zmax), file = cstmplt)
@@ -863,43 +854,41 @@ class CustomPlotter(wx.Frame):
         ##
         print('eps=1.e-8', file = cstmplt)
         print('ii,i1=[],[]', file = cstmplt)
-        print('if "cmap" in mapopt: cmap = mapopt[mapopt.index("cmap"):].split("=")[1].split(",")[0].strip().rstrip()', file = cstmplt)
-        print('else: cmap = plt.get_cmap().name', file = cstmplt)
-        print('cmap', file = cstmplt)
         print('if (abs(thres-0.)>eps):', file = cstmplt)
-        print('  if verbose : print("mapping with threshold at %f")'%thres, file = cstmplt)
+        print('  if verbose : print("mapping with threshold at %f)"'%thres, file = cstmplt)
         print('  ii=np.argwhere(thrco-thres<eps).flatten()', file = cstmplt)
         print('  i1=np.delete(np.arange(len(zcl)),ii)', file = cstmplt)
         print('  if len(i1)==0:', file = cstmplt)
-        print('    print("THRESHOLD TOO LOW, NOTHING TO PLOT!")', file = cstmplt)
+        print('    print("THRESHOLD TOO LOW, NOTHING TO PLOT!)"', file = cstmplt)
         print('    exit()', file = cstmplt)
         print('  elif len(i1)>0:', file = cstmplt)
         print('    zcl[ii]=-1', file = cstmplt)
         print('    zcl1=zcl[i1]', file = cstmplt)
-        print('    cmap1 = copy.copy(cmap)', file = cstmplt)
-        print('    cmap = cmap1.set_under("w")', file = cstmplt)
+        print('    cmap=plt.cm.Spectral_r.set_under("w")', file = cstmplt)
         print('    vmi,vma=min(zcl1),max(zcl1)', file = cstmplt)
-#         print('else:', file = cstmplt)
-#         print('  cmap=plt.cm.hot', file = cstmplt)
-#         print('  vmi,vma=min(zcl),max(zcl)', file = cstmplt)
+        print('else:', file = cstmplt)
+        print('  cmap=plt.cm.Spectral_r', file = cstmplt)
+        print('  vmi,vma=min(zcl),max(zcl)', file = cstmplt)
         print('if zra[1]>0:', file = cstmplt)
         print('  vmi,vma=zra[0],zra[1]', file = cstmplt)
         print('if xra[1]>0:', file = cstmplt)
         print('  xmin,xmax=xra[0],xra[1]', file = cstmplt)
         print('else:', file = cstmplt)
-        print('  xmin,xmax=min(xcl),max(xcl)', file = cstmplt)
+        print('  xmin,xmax=0,max(xcl)', file = cstmplt)
         print('if yra[1]>0:', file = cstmplt)
         print('  ymin,ymax=yra[0],yra[1]', file = cstmplt)
         print('else:', file = cstmplt)
-        print('  ymin,ymax=min(ycl),max(ycl)', file = cstmplt)
+        print('  ymin,ymax=0,max(ycl)', file = cstmplt)
+        print('npy=np.argwhere(xcl==max(xcl)).flatten()[1]', file = cstmplt)
+        print('npx=len(np.argwhere(xcl==max(xcl)).flatten())', file = cstmplt)
+        print('img=np.reshape(zcl[::-1],(npx,npy))', file = cstmplt)
         print('plt.figure(figsize=(fwdt,fhig))', file = cstmplt)
         print('plt.subplots_adjust(wspace=0.2)', file = cstmplt)
-        print('ax = plt.subplot(111)', file = cstmplt)
-#         print('ax = plt.axes([0.125,0.15,0.95-0.25,0.95-0.2])', file = cstmplt)
-        print('map = ax.imshow(imgc, extent = [xmin, xmax, ymin, ymax],\n\
+        print('#ax=plt.subplot(111)', file = cstmplt)
+        print('ax=plt.axes([0.125,0.15,0.95-0.25,0.95-0.2])', file = cstmplt)
+        print('map = ax.imshow(img, cmap = cmap, extent = [xmin, xmax, ymin, ymax],\n\
          vmin = vmi, vmax = vma, %s)'%fo, file = cstmplt)
-#         print('plt.colorbar(map, format="%.0e")', file = cstmplt)
-        print('plt.colorbar(map)', file = cstmplt)
+        print('plt.colorbar(map,format="%f")', file = cstmplt)
         print('plt.xlabel(r"%s"%xlbl)', file = cstmplt)
         print('plt.ylabel(r"%s"%ylbl)', file = cstmplt)
         print('plt.title(titl,fontsize=fsiz)', file = cstmplt)
@@ -913,7 +902,17 @@ class CustomPlotter(wx.Frame):
       if (self.nplot >= 1 and mode == 'replot') : self.proc.terminate()
       if mode == 'plot' : self.nplot += 1
       plotfile = self.ReadWrite(event, 'plot')
-      cmd = ['pythonw', plotfile]
+      py_exec = sys.executable
+      if gset.Platform[:3].lower() in ('dar', 'win'):
+          if "python" in os.path.basename(py_exec).lower():
+              py_exec = py_exec.replace("python.exe", "pythonw.exe").replace("python", "pythonw")
+      cmd = [py_exec, plotfile]
+      # if gset.Platform[:3].lower() == 'lin':
+      #     cmd = ['python3', plotfile]
+      # elif gset.Platform[:3].lower() == 'dar':
+      # 	  cmd = ['pythonw', plotfile]
+      # elif gset.Platform[:3].lower() == 'win':
+      #     cmd = ['python', plotfile]
       self.proc = subprocess.Popen(cmd, stdin = subprocess.PIPE, stderr = subprocess.STDOUT)
 #       else:
 #           self.proc.communicate("execfile('%s')"%plotfile)
@@ -953,13 +952,13 @@ class CustomPlotter(wx.Frame):
               print('FILE    ',fn, spt, fx,spt, fy, spt, fz, spt, ft, spt, fo, file = outf)
           xx = wx.FindWindowByName('range')
           vx = xx.GetValue().strip()
-          print('XRANGE    ',vx, file = outf)
+          print('XRANGE    ',vx)
           xx = wx.FindWindowByName('yrange')
           vx = xx.GetValue().strip()
-          print('YRANGE    ',vx, file = outf)
+          print('YRANGE    ',vx)
           xx = wx.FindWindowByName('zrange')
           vx = xx.GetValue().strip()
-          print('ZRANGE    ',vx, file = outf)
+          print('ZRANGE    ',vx)
           xx = wx.FindWindowByName('threshold')
           vx = xx.GetValue().strip()
           print('THRESH    ',vx, file = outf)

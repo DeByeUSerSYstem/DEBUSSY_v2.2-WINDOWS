@@ -1,1 +1,0 @@
-pythonw.exe C:\cygwin64\DEBUSSY_v2.2\GUI\DebUsSy-Suite_GUI.py
